@@ -4,3 +4,45 @@ Golang library to generate QR code
 
 [![go report card](https://goreportcard.com/badge/github.com/nishant8887/go-qrcode "go report card")](https://goreportcard.com/report/github.com/nishant8887/go-qrcode)
 [![MIT license](https://img.shields.io/badge/license-MIT-brightgreen.svg)](https://opensource.org/licenses/MIT)
+[![Go.Dev reference](https://img.shields.io/badge/go.dev-reference-blue?logo=go&logoColor=white)](https://pkg.go.dev/github.com/nishant8887/go-qrcode)
+
+## Getting started
+### Import
+To import the library add the following import to your code.
+```
+import "github.com/nishant8887/go-qrcode"
+```
+### Create a new QR code
+Creating a new QR code is very simple.
+```
+code, err := qrcode.New("HELLO WORLD", qrcode.Q)
+if err != nil {
+    return err
+}
+```
+### Get code matrix
+Get the 2D boolean array representing QR code.
+```
+m := code.Matrix()
+```
+
+### Get code image
+Get the image form of QR code.
+```
+imageFile, err := os.Create("image.png")
+if err != nil {
+    return err
+}
+
+img := code.Image()
+err := png.Encode(imageFile, code.Image())
+if err != nil {
+    return err
+}
+```
+
+## Tools
+
+## Links
+- Nice tutorial for QR code [reference](https://www.thonky.com/qr-code-tutorial/)
+- [Guide](https://www.nayuki.io/page/creating-a-qr-code-step-by-step) for creating a QR code
