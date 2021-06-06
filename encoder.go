@@ -53,12 +53,12 @@ func (e *RSEncoder) Encode(block []byte) ([]byte, error) {
 }
 
 func (e *RSEncoder) divide(cp []byte) []byte {
-	if len(cp) < len(e.generator) {
-		return cp
+	for len(cp) > 0 && cp[0] == 0 {
+		cp = cp[1:]
 	}
 
-	for cp[0] == 0 {
-		cp = cp[1:]
+	if len(cp) < len(e.generator) {
+		return cp
 	}
 
 	mp := make([]byte, len(cp))

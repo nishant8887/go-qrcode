@@ -42,7 +42,13 @@ if err != nil {
 ```
 
 ## Tools
+Go-qrcode provides handy command line tool.
+- **qrgenerate** - Generates QR code image from text
+```
+go install github.com/nishant8887/go-qrcode/cmd/qrgenerate
+qrgenerate --help
+```
 
 ## Links
-- Nice tutorial for QR code [reference](https://www.thonky.com/qr-code-tutorial/)
+- Nice [tutorial](https://www.thonky.com/qr-code-tutorial/) for QR code reference
 - [Guide](https://www.nayuki.io/page/creating-a-qr-code-step-by-step) for creating a QR code

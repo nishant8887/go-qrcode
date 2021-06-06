@@ -40,9 +40,10 @@ func (c *QRCode) versionInformation() ([]bool, error) {
 }
 
 func golayEncode(bits []bool, gp []bool) []bool {
-	cp := append(bits, make([]bool, len(gp)-1)...)
+	cp := make([]bool, len(bits)+len(gp)-1)
+	copy(cp, bits)
 	for {
-		for !cp[0] {
+		for len(cp) > 0 && !cp[0] {
 			cp = cp[1:]
 		}
 
@@ -51,7 +52,8 @@ func golayEncode(bits []bool, gp []bool) []bool {
 		}
 
 		r := make([]bool, len(cp)-1)
-		m := append(gp, make([]bool, len(cp)-len(gp))...)
+		m := make([]bool, len(cp))
+		copy(m, gp)
 		for i := 0; i < len(r); i++ {
 			r[i] = xor(m[i+1], cp[i+1])
 		}
