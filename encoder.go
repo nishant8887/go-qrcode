@@ -1,12 +1,18 @@
 package qrcode
 
+// Encoder is the interface for reed-solomon encoder
+type Encoder interface {
+	Encode([]byte) ([]byte, error)
+}
+
 type rsEncoder struct {
 	antilog   map[int]int
 	log       map[int]int
 	generator []byte
 }
 
-func NewRSEncoder(errorCodewords int) *rsEncoder {
+// NewRSEncoder creates a new reed-solomon encoder for QR code
+func NewRSEncoder(errorCodewords int) Encoder {
 	antilog := make(map[int]int)
 	log := make(map[int]int)
 
@@ -43,10 +49,10 @@ func NewRSEncoder(errorCodewords int) *rsEncoder {
 	return &rsEncoder{antilog: antilog, log: log, generator: f}
 }
 
-func (e *rsEncoder) Encode(block []byte) []byte {
+func (e *rsEncoder) Encode(block []byte) ([]byte, error) {
 	p := make([]byte, len(block)+len(e.generator)-1)
 	copy(p, block)
-	return e.divide(p)
+	return e.divide(p), nil
 }
 
 func (e *rsEncoder) divide(cp []byte) []byte {

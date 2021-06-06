@@ -5,7 +5,7 @@ var (
 	alphanumeric = []rune("ABCDEFGHIJKLMNOPQRSTUVWXYZ $%*+-./:")
 )
 
-func IsDigit(r rune) bool {
+func isDigit(r rune) bool {
 	for _, l := range numeric {
 		if r == l {
 			return true
@@ -14,7 +14,7 @@ func IsDigit(r rune) bool {
 	return false
 }
 
-func IsLetter(r rune) bool {
+func isLetter(r rune) bool {
 	for _, l := range alphanumeric {
 		if r == l {
 			return true
@@ -23,7 +23,7 @@ func IsLetter(r rune) bool {
 	return false
 }
 
-func AlphanumericIndex(r rune) int {
+func alphanumericIndex(r rune) int {
 	for index, l := range numeric {
 		if r == l {
 			return index

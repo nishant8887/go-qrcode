@@ -7,10 +7,24 @@ import (
 	"strconv"
 )
 
+// ErrTextTooLong ErrBlocksDoNotMatch are errors while generating QR code
+// ErrTextTooLong - Input string is too long for QR code generation
+// ErrBlocksDoNotMatch - Number of blocks do not match the specification. It will only happen if there is implementation bug.
 var (
 	ErrTextTooLong      = errors.New("input too long")
 	ErrBlocksDoNotMatch = errors.New("blocks do not match")
 )
+
+// QRCode is the interface for generated code
+type QRCode interface {
+	Size() int
+	Version() int
+	Mode() Mode
+	Ecl() Ecl
+	Mask() int
+	Matrix() [][]bool
+	Image() image.Image
+}
 
 type qrCode struct {
 	version    int
@@ -113,9 +127,9 @@ func (c *qrCode) encode() error {
 				v = []rune(c.data[i : i+2])
 			}
 			if len(v) == 2 {
-				err = buf.WriteInt(AlphanumericIndex(v[0])*45+AlphanumericIndex(v[1]), 11)
+				err = buf.WriteInt(alphanumericIndex(v[0])*45+alphanumericIndex(v[1]), 11)
 			} else {
-				err = buf.WriteInt(AlphanumericIndex(v[0]), 6)
+				err = buf.WriteInt(alphanumericIndex(v[0]), 6)
 			}
 			if err != nil {
 				return err
@@ -191,7 +205,7 @@ func (c *qrCode) encode() error {
 
 	rs := NewRSEncoder(ecCodeBlockSize)
 	for _, block := range blocks {
-		ecCodeBlock := rs.Encode(block)
+		ecCodeBlock, _ := rs.Encode(block)
 		ecCodeBlocks = append(ecCodeBlocks, ecCodeBlock)
 	}
 
@@ -231,13 +245,14 @@ func (c *qrCode) encode() error {
 	return nil
 }
 
-func New(data string, ecl Ecl) (*qrCode, error) {
+// New creates a QR code for given string and error correction level
+func New(data string, ecl Ecl) (QRCode, error) {
 	mode := Numeric
 	for _, r := range []rune(data) {
-		if !IsDigit(r) {
+		if !isDigit(r) {
 			mode = Alphanumeric
 		}
-		if !IsLetter(r) {
+		if !isLetter(r) {
 			mode = Byte
 			break
 		}

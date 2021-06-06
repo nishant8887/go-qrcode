@@ -6,7 +6,7 @@ import (
 )
 
 var (
-	ErrSizeExceeded = errors.New("size exceeded")
+	errSizeExceeded = errors.New("size exceeded")
 )
 
 type bitsBuffer struct {
@@ -18,7 +18,7 @@ func (b *bitsBuffer) WriteInt(n int, size int) error {
 	i := 1
 	for n >= 1 {
 		if size-i < 0 {
-			return ErrSizeExceeded
+			return errSizeExceeded
 		}
 		bits[size-i] = (n%2 == 1)
 		i++
@@ -33,7 +33,7 @@ func (b *bitsBuffer) WriteInt64(n int64, size int) error {
 	i := 1
 	for n >= 1 {
 		if size-i < 0 {
-			return ErrSizeExceeded
+			return errSizeExceeded
 		}
 		bits[size-i] = (n%2 == 1)
 		i++
