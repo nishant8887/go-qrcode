@@ -6,7 +6,7 @@ var (
 	formatMask       = []bool{true, false, true, false, true, false, false, false, false, false, true, false, false, true, false}
 )
 
-func (c *qrCode) formatInformation() ([]bool, error) {
+func (c *QRCode) formatInformation() ([]bool, error) {
 	buf := bitsBuffer{}
 
 	err := buf.WriteInt(int(c.ecl), 2)
@@ -27,7 +27,7 @@ func (c *qrCode) formatInformation() ([]bool, error) {
 	return formatBits, nil
 }
 
-func (c *qrCode) versionInformation() ([]bool, error) {
+func (c *QRCode) versionInformation() ([]bool, error) {
 	buf := bitsBuffer{}
 
 	err := buf.WriteInt(c.version, 6)

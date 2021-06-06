@@ -7,26 +7,20 @@ import (
 	"strconv"
 )
 
-// ErrTextTooLong ErrBlocksDoNotMatch are errors while generating QR code
-// ErrTextTooLong - Input string is too long for QR code generation
-// ErrBlocksDoNotMatch - Number of blocks do not match the specification. It will only happen if there is implementation bug.
+/*
+Defined errors while generating QR code:
+ErrTextTooLong - Input string is too long for QR code generation
+ErrBlocksDoNotMatch - Number of blocks do not match the specification. It will only happen if there is implementation bug
+*/
 var (
 	ErrTextTooLong      = errors.New("input too long")
 	ErrBlocksDoNotMatch = errors.New("blocks do not match")
 )
 
-// QRCode is the interface for generated code
-type QRCode interface {
-	Size() int
-	Version() int
-	Mode() Mode
-	Ecl() Ecl
-	Mask() int
-	Matrix() [][]bool
-	Image() image.Image
-}
-
-type qrCode struct {
+/*
+QRCode - generated QRCode from the data
+*/
+type QRCode struct {
 	version    int
 	mode       Mode
 	ecl        Ecl
@@ -38,31 +32,38 @@ type qrCode struct {
 	code       [][]bool
 }
 
-func (c *qrCode) Size() int {
+// Size - returns the size of the QR code's grid
+func (c *QRCode) Size() int {
 	return 21 + (c.version-1)*4
 }
 
-func (c *qrCode) Version() int {
+// Version - returns the version of the generated QR code
+func (c *QRCode) Version() int {
 	return c.version
 }
 
-func (c *qrCode) Mode() Mode {
+// Mode - returns the mode of the generated QR code
+func (c *QRCode) Mode() Mode {
 	return c.mode
 }
 
-func (c *qrCode) Ecl() Ecl {
+// Ecl - returns the error correction level of the generated QR code
+func (c *QRCode) Ecl() Ecl {
 	return c.ecl
 }
 
-func (c *qrCode) Mask() int {
+// Mask - returns the mask used for the generated QR code
+func (c *QRCode) Mask() int {
 	return c.mask
 }
 
-func (c *qrCode) Matrix() [][]bool {
+// Matrix - returns the 2D boolean array for the generated QR code
+func (c *QRCode) Matrix() [][]bool {
 	return c.code
 }
 
-func (c *qrCode) Image() image.Image {
+// Image - returns the image of the generated QR code
+func (c *QRCode) Image() image.Image {
 	size := c.Size()
 	codeImage := image.NewRGBA(image.Rectangle{image.Point{0, 0}, image.Point{size, size}})
 
@@ -81,7 +82,7 @@ func (c *qrCode) Image() image.Image {
 	return codeImage
 }
 
-func (c *qrCode) encode() error {
+func (c *QRCode) encode() error {
 	buf := bitsBuffer{}
 	size := len(c.data)
 
@@ -246,7 +247,7 @@ func (c *qrCode) encode() error {
 }
 
 // New creates a QR code for given string and error correction level
-func New(data string, ecl Ecl) (QRCode, error) {
+func New(data string, ecl Ecl) (*QRCode, error) {
 	mode := Numeric
 	for _, r := range []rune(data) {
 		if !isDigit(r) {
@@ -303,7 +304,7 @@ func New(data string, ecl Ecl) (QRCode, error) {
 	}
 
 	codeInfo := codewordsInfo[version-1][eclIndex]
-	code := qrCode{version: version, mode: mode, ecl: ecl, data: data, headerSize: headerSize, codeInfo: codeInfo}
+	code := QRCode{version: version, mode: mode, ecl: ecl, data: data, headerSize: headerSize, codeInfo: codeInfo}
 
 	err := code.encode()
 	if err != nil {

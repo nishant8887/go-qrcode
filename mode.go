@@ -1,9 +1,15 @@
 package qrcode
 
-// Mode is the mode according to the QR code specifications
+// Mode - mode according to the QR code specifications
 type Mode int
 
-// Numeric Alphanumeric Byte Kanji modes
+/*
+Modes according to the QR code specifications
+1. Numeric
+2. Alphanumeric
+3. Byte
+4. Kanji
+*/
 const (
 	Numeric      Mode = 1
 	Alphanumeric Mode = 2

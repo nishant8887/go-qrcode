@@ -22,7 +22,7 @@ var alignmentPattern = [][]byte{
 	{9, 9, 9, 9, 9},
 }
 
-func (c *qrCode) generate() error {
+func (c *QRCode) generate() error {
 	size := c.Size()
 	matrix := make([][]byte, size)
 	for i := range matrix {
@@ -168,7 +168,7 @@ func (c *qrCode) generate() error {
 	return nil
 }
 
-func (c *qrCode) alignmentPatterns() []int {
+func (c *QRCode) alignmentPatterns() []int {
 	s := 21 + (c.version-1)*4
 	d := int(c.version/7) + 1
 	interval := int(math.Ceil(float64(s-13) / float64(d)))
