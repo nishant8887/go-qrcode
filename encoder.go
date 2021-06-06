@@ -44,8 +44,8 @@ func NewRSEncoder(errorCodewords int) *rsEncoder {
 }
 
 func (e *rsEncoder) Encode(block []byte) []byte {
-	p := make([]byte, len(e.generator)-1)
-	p = append(block, p...)
+	p := make([]byte, len(block)+len(e.generator)-1)
+	copy(p, block)
 	return e.divide(p)
 }
 
@@ -58,8 +58,8 @@ func (e *rsEncoder) divide(cp []byte) []byte {
 		cp = cp[1:]
 	}
 
-	mp := make([]byte, len(cp)-len(e.generator))
-	mp = append(e.generator, mp...)
+	mp := make([]byte, len(cp))
+	copy(mp, e.generator)
 
 	for i := 0; i < len(mp); i++ {
 		if mp[i] == 0 {

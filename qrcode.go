@@ -2,6 +2,8 @@ package qrcode
 
 import (
 	"errors"
+	"image"
+	"image/color"
 	"strconv"
 )
 
@@ -44,6 +46,25 @@ func (c *qrCode) Mask() int {
 
 func (c *qrCode) Matrix() [][]bool {
 	return c.code
+}
+
+func (c *qrCode) Image() image.Image {
+	size := c.Size()
+	codeImage := image.NewRGBA(image.Rectangle{image.Point{0, 0}, image.Point{size, size}})
+
+	white := color.RGBA{255, 255, 255, 0xff}
+	black := color.RGBA{0, 0, 0, 0xff}
+
+	for x := 0; x < size; x++ {
+		for y := 0; y < size; y++ {
+			if c.code[y][x] {
+				codeImage.Set(x, y, black)
+			} else {
+				codeImage.Set(x, y, white)
+			}
+		}
+	}
+	return codeImage
 }
 
 func (c *qrCode) encode() error {
