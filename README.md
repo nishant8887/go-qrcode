@@ -9,12 +9,12 @@ Golang library to generate QR code
 ## Getting started
 ### Import
 To import the library add the following import to your code.
-```
+```go
 import "github.com/nishant8887/go-qrcode"
 ```
 ### Create a new QR code
 Creating a new QR code is very simple.
-```
+```go
 code, err := qrcode.New("HELLO WORLD", qrcode.Q)
 if err != nil {
     return err
@@ -22,13 +22,13 @@ if err != nil {
 ```
 ### Get code matrix
 Get the 2D boolean array representing QR code.
-```
+```go
 m := code.Matrix()
 ```
 
 ### Get code image
 Get the image form of QR code.
-```
+```go
 imageFile, err := os.Create("image.png")
 if err != nil {
     return err

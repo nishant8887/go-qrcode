@@ -9,7 +9,9 @@ import (
 
 /*
 Defined errors while generating QR code:
+
 ErrTextTooLong - Input string is too long for QR code generation
+
 ErrBlocksDoNotMatch - Number of blocks do not match the specification. It will only happen if there is implementation bug
 */
 var (

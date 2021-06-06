@@ -5,9 +5,13 @@ type Mode int
 
 /*
 Modes according to the QR code specifications
+
 1. Numeric
+
 2. Alphanumeric
+
 3. Byte
+
 4. Kanji
 */
 const (
