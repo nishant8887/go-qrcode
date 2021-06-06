@@ -7,16 +7,9 @@ import (
 	"strconv"
 )
 
-/*
-Defined errors while generating QR code:
-
-ErrTextTooLong - Input string is too long for QR code generation
-
-ErrBlocksDoNotMatch - Number of blocks do not match the specification. It will only happen if there is implementation bug
-*/
 var (
-	ErrTextTooLong      = errors.New("input too long")
-	ErrBlocksDoNotMatch = errors.New("blocks do not match")
+	errTextTooLong      = errors.New("input too long")
+	errBlocksDoNotMatch = errors.New("blocks do not match")
 )
 
 /*
@@ -192,7 +185,7 @@ func (c *QRCode) encode() error {
 
 	totalBlocks := groupOneBlocks*groupOneBlockSize + groupTwoBlocks*groupTwoBlockSize
 	if len(codewords) != totalBlocks {
-		return ErrBlocksDoNotMatch
+		return errBlocksDoNotMatch
 	}
 
 	for i := 0; i < groupOneBlocks; i++ {
@@ -293,7 +286,7 @@ func New(data string, ecl Ecl) (*QRCode, error) {
 		}
 	}
 	if version == 0 {
-		return nil, ErrTextTooLong
+		return nil, errTextTooLong
 	}
 
 	headerSize := 0
