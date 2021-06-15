@@ -14,18 +14,7 @@ type bitsBuffer struct {
 }
 
 func (b *bitsBuffer) WriteInt(n int, size int) error {
-	bits := make([]bool, size)
-	i := 1
-	for n >= 1 {
-		if size-i < 0 {
-			return errSizeExceeded
-		}
-		bits[size-i] = (n%2 == 1)
-		i++
-		n = n / 2
-	}
-	b.buffer = append(b.buffer, bits...)
-	return nil
+	return b.WriteInt64(int64(n), size)
 }
 
 func (b *bitsBuffer) WriteInt64(n int64, size int) error {
@@ -61,16 +50,12 @@ func (b *bitsBuffer) Bytes() ([]byte, error) {
 	size := len(b.buffer)
 	for i := 0; i < size; i += 8 {
 		var (
-			c   *byte
-			err error
+			c *byte
 		)
 		if i > size-8 {
-			c, err = getByte(b.buffer[i:])
+			c, _ = getByte(b.buffer[i:])
 		} else {
-			c, err = getByte(b.buffer[i : i+8])
-		}
-		if err != nil {
-			return nil, err
+			c, _ = getByte(b.buffer[i : i+8])
 		}
 		byteBuffer.WriteByte(*c)
 	}
