@@ -1,37 +1,51 @@
-## Welcome to GitHub Pages
-
-You can use the [editor on GitHub](https://github.com/nishant8887/go-qrcode/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
-
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
-
-### Markdown
-
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
-
-```markdown
-Syntax highlighted code block
-
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
+## Getting started
+### Import
+To import the library add the following import to your code.
+```go
+import "github.com/nishant8887/go-qrcode"
 ```
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+### Create a new QR code
+Creating a new QR code is very simple.
+```go
+code, err := qrcode.New("HELLO WORLD", qrcode.Q)
+if err != nil {
+    return err
+}
+```
 
-### Jekyll Themes
+### Get code matrix
+Get the 2D boolean array representing QR code.
+```go
+m := code.Matrix()
+```
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/nishant8887/go-qrcode/settings/pages). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
+### Get code image
+Get the image form of QR code.
+```go
+imageFile, err := os.Create("image.png")
+if err != nil {
+    return err
+}
 
-### Support or Contact
+img := code.Image()
+err := png.Encode(imageFile, code.Image())
+if err != nil {
+    return err
+}
+```
 
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
+## Documentation
+For API references checkout the [documentation](https://pkg.go.dev/github.com/nishant8887/go-qrcode).
+
+## Tools
+Go-qrcode provides handy command line tool.
+- **qrgenerate** - Generates QR code image from text
+```
+go install github.com/nishant8887/go-qrcode/cmd/qrgenerate
+qrgenerate --help
+```
+
+## Links
+- Nice [tutorial](https://www.thonky.com/qr-code-tutorial/) for QR code reference.
+- [Guide](https://www.nayuki.io/page/creating-a-qr-code-step-by-step) for creating a QR code.
