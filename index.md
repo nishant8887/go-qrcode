@@ -1,4 +1,7 @@
 ## go-qrcode
+
+<img src="https://raw.githubusercontent.com/nishant8887/go-qrcode/gh-pages/.github/logo.png" width="160px"/>
+
 ### Getting started
 #### Import
 To import the library add the following import to your code.
