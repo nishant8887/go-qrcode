@@ -25,3 +25,12 @@ jobs:
       - codecov/upload:
           file: '/tmp/coverage.txt'
           token: f54774de-aedd-4e47-b63b-f51bc2fb8574
+workflows:
+  version: 2.1
+  build:
+    jobs:
+      - build:
+          filters:
+            branches:
+              only:
+                - master
