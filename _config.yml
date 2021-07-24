@@ -1,1 +1,10 @@
+title: go-qrcode
+description: Golang library to generate QR code
+logo: https://raw.githubusercontent.com/nishant8887/go-qrcode/gh-pages/.github/logo.png
+image: https://raw.githubusercontent.com/nishant8887/go-qrcode/gh-pages/.github/logo.png
+author: nishant8887
+
+plugins:
+  - jekyll-seo-tag
+
 theme: jekyll-theme-cayman
